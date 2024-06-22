@@ -70,7 +70,7 @@ const ChessCell = ({
       onClick={handleClick}
       onBlur={clearClickedPiece}
     >
-      {piece && piece.type}
+      {piece && <img className="icon" src={piece.icon} alt={piece.type} />}
       {/* <div style={{ color: "red", fontSize: "12px", fontWeight: "200" }}>
         {rowIdx},{colIdx}
       </div> */}

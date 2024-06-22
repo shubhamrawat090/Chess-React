@@ -1,10 +1,18 @@
+.chess-board {
+  aspect-ratio: 1;
+  width: min(90vw, 90vh);
+  max-width: 640px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
 .row {
   display: flex;
 }
 
 .col {
   aspect-ratio: 1;
-  width: 4rem;
+  width: calc(100% / 4);
   border: 1px solid black;
   display: flex;
   align-items: center;
@@ -37,9 +45,12 @@
   outline: none;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease-in;
+  transition: background-color 0.1s ease-in;
   font-weight: 600;
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .piece:hover {
@@ -58,6 +69,33 @@
   background-color: aquamarine;
 }
 
+/* .possibleSquare {
+  background: #ecfd30;
+  background: linear-gradient(to right, #f3fa2c, #ecfd30);
+} */
+
 .possibleSquare {
-  background-color: yellow;
+  position: relative;
+}
+
+.possibleSquare:has(img) {
+  background-image: linear-gradient(to top, #ed0404 0%, #fa2003 100%);
+}
+
+.possibleSquare::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: "";
+  aspect-ratio: 1;
+  height: 25%;
+  min-height: 0.5rem;
+  background-color: rgb(108, 102, 102);
+  opacity: 0.3;
+  border-radius: 100%;
+}
+
+.icon {
+  width: 90%;
 }
