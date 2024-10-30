@@ -74,7 +74,7 @@ export class ChessLogic {
         color: "white",
         icon: PIECES.wb,
       },
-      { name: "Queen", type: "Q", x: 5, y: 3, color: "white", icon: PIECES.wq },
+      { name: "Queen", type: "Q", x: 7, y: 3, color: "white", icon: PIECES.wq },
       { name: "King", type: "K", x: 7, y: 4, color: "white", icon: PIECES.wk },
       {
         name: "Bishop",
