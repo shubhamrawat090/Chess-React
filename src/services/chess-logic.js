@@ -28,7 +28,7 @@ export class ChessLogic {
         color: "black",
         icon: PIECES.bb,
       },
-      { name: "Queen", type: "Q", x: 0, y: 3, color: "black", icon: PIECES.bq },
+      { name: "Queen", type: "Q", x: 3, y: 3, color: "black", icon: PIECES.bq }, // TEST CODE FOR MOVING QUEEN MANUALLY
       { name: "King", type: "K", x: 0, y: 4, color: "black", icon: PIECES.bk },
       {
         name: "Bishop",
