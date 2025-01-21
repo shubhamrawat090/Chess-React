@@ -79,7 +79,7 @@ export class ChessLogic {
       {
         name: "Bishop",
         type: "B",
-        x: 7,
+        x: 5, // TEST CODE
         y: 5,
         color: "white",
         icon: PIECES.wb,
