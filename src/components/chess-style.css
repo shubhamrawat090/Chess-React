@@ -99,3 +99,7 @@
 .icon {
   width: 90%;
 }
+
+.chess-cell {
+  position: relative;
+}

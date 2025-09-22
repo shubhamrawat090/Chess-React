@@ -282,7 +282,7 @@ export class ChessLogic {
     for (let dir of dirs) {
       const r = row + dir[0],
         c = col + dir[1];
-      if (r < 0 || r >= 8 || c < 0 || c >= 8) break;
+      if (r < 0 || r >= 8 || c < 0 || c >= 8) continue;
       const piece = this.getPiece(r, c);
       if (piece) {
         // NOTE: Piece shouldn't be king - cannot attack it

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { cn } from "../services/utilityFunctions";
+import ShowRowColIndex from "./debugging/ShowRowColIndex";
 
 const ChessCell = ({
   rowIdx,
@@ -63,6 +64,7 @@ const ChessCell = ({
   return (
     <button
       className={cn(
+        "chess-cell",
         `${piece ? "piece " + piece.color : "cell"}`,
         `${piece === clickedPiece ? "clicked" : ""}`,
         `${isPossibleSquare ? "possibleSquare" : ""}`
@@ -71,9 +73,9 @@ const ChessCell = ({
       onBlur={clearClickedPiece}
     >
       {piece && <img className="icon" src={piece.icon} alt={piece.type} />}
-      {/* <div style={{ color: "red", fontSize: "12px", fontWeight: "200" }}>
-        {rowIdx},{colIdx}
-      </div> */}
+
+      {/* DEBUGGING CODE - Show block numbers */}
+      {/* <ShowRowColIndex rowIdx={rowIdx} colIdx={colIdx} /> */}
     </button>
   );
 };
