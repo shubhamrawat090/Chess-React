@@ -1,10 +1,24 @@
 import ChessLogicModel from "./ChessLogic.model";
+import Bishop from './pieces/Bishop';
+import King from './pieces/King';
+import Knight from './pieces/Knight';
+import Pawn from './pieces/Pawn';
+import Queen from './pieces/Queen';
+import Rook from './pieces/Rook';
 
 export class ChessLogic {
   constructor() {
     this.board = this.initializeBoard();
     this.playerToPlay = "white";
     this.movesHistory = [];
+    this.pieceInstances = {
+        Bishop: (color, board) => new Bishop(color, board),
+        King: (color, board) => new King(color, board),
+        Knight: (color, board) => new Knight(color, board),
+        Pawn: (color, board) => new Pawn(color, board),
+        Queen: (color, board) => new Queen(color, board),
+        Rook: (color, board) => new Rook(color, board),
+    };
   }
 
   initializeBoard() {
@@ -18,28 +32,12 @@ export class ChessLogic {
   squaresToGo(piece) {
     const { name, x: row, y: col, color } = piece;
 
-    switch (name) {
-      case "Pawn":
-        return this.pawnSquares(row, col, color);
-
-      case "Rook":
-        return this.rookSquares(row, col, color);
-
-      case "Bishop":
-        return this.bishopSquares(row, col, color);
-
-      case "Knight":
-        return this.knightSquares(row, col, color);
-
-      case "Queen":
-        return this.queenSquares(row, col, color);
-
-      case "King":
-        return this.kingSquares(row, col, color);
-
-      default:
-        return [];
+    if (this.pieceInstances[name]) {
+        const pieceInstance = this.pieceInstances[name](color, this.board);
+        return pieceInstance.squaresToGo(row, col);
     }
+
+    return [];
   }
 
   movePieceTo(piece, x, y) {
@@ -50,267 +48,5 @@ export class ChessLogic {
       this.board[index].x = x;
       this.board[index].y = y;
     }
-  }
-
-  bishopSquares(row, col, color) {
-    const possiblePlaces = [];
-    // left diagonal - up(row--, col--), down(r++, col++)
-    for (let r = row - 1, c = col - 1; r >= 0 && c >= 0; r--, c--) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-
-    for (let r = row + 1, c = col + 1; r < 8 && c < 8; r++, c++) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-
-    // right diagonal - up(row--, col++), down(r++, col--)
-    for (let r = row - 1, c = col + 1; r >= 0 && c < 8; r--, c++) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-
-    for (let r = row + 1, c = col - 1; r < 8 && c >= 0; r++, c--) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-    return possiblePlaces;
-  }
-
-  rookSquares(row, col, color) {
-    const possiblePlaces = [];
-
-    // Vertically all places -> row++
-    for (let r = row + 1, c = col; r < 8; r++) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        // Stop here as well - BUT FOR OUR PIECE, FOR OPPONENT PIECE consider it and nothing else
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-
-    for (let r = row - 1, c = col; r >= 0; r--) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        // Stop here as well - BUT FOR OUR PIECE, FOR OPPONENT PIECE consider it and nothing else
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-
-    // Horizontally all places -> col++
-    for (let c = col + 1, r = row; c < 8; c++) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        // Stop here as well - BUT FOR OUR PIECE, FOR OPPONENT PIECE consider it and nothing else
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-
-    for (let c = col - 1, r = row; c >= 0; c--) {
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        // Stop here as well - BUT FOR OUR PIECE, FOR OPPONENT PIECE consider it and nothing else
-        if (color === piece.color) break;
-        else {
-          possiblePlaces.push([r, c]);
-          break;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-
-    return possiblePlaces;
-  }
-
-  knightSquares(row, col, color) {
-    const possiblePlaces = [];
-    const dirs = [
-      [-2, -1],
-      [-2, 1],
-      [-1, 2],
-      [1, 2],
-      [2, 1],
-      [2, -1],
-      [1, -2],
-      [-1, -2],
-    ];
-    for (let dir of dirs) {
-      const r = row + dir[0],
-        c = col + dir[1];
-      if (r < 0 || r >= 8 || c < 0 || c >= 8) continue;
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        // NOTE: Piece shouldn't be king - cannot attack it
-        // ALSO CHECK FOR SQUARES ATTACKED BY OTHER PIECES
-
-        if (piece.color === color || piece.name === "King") continue;
-        else {
-          possiblePlaces.push([r, c]);
-          continue;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-    return possiblePlaces;
-  }
-
-  kingSquares(row, col, color) {
-    const possiblePlaces = [];
-    const dirs = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, 1],
-      [1, 1],
-      [1, 0],
-      [1, -1],
-      [0, -1],
-    ];
-    for (let dir of dirs) {
-      const r = row + dir[0],
-        c = col + dir[1];
-      if (r < 0 || r >= 8 || c < 0 || c >= 8) break;
-      const piece = this.getPiece(r, c);
-      if (piece) {
-        // NOTE: Piece shouldn't be king - cannot attack it
-        // ALSO CHECK FOR SQUARES ATTACKED BY OTHER PIECES
-
-        if (piece.color === color) continue;
-        else {
-          possiblePlaces.push([r, c]);
-          continue;
-        }
-      } else {
-        possiblePlaces.push([r, c]);
-      }
-    }
-    return possiblePlaces;
-  }
-
-  pawnSquares(row, col, color) {
-    const possiblePlaces = [];
-    // NOTE: If there is an OPPONENT piece at diagonal then you can go there as well
-    // NOTE: can go 1 or 2 step only if there is not piece there
-    let diagonalDirs = [];
-    if (color === "white") {
-      // WHITE goes UPWARDS
-      diagonalDirs = [
-        [-1, -1],
-        [-1, 1],
-      ];
-
-      const oneStepElement = this.getPiece(row - 1, col);
-      if (!oneStepElement) {
-        if (row - 1 >= 0) possiblePlaces.push([row - 1, col]);
-
-        const twoStepElement = this.getPiece(row - 2, col);
-        if (row === 6 && !twoStepElement) {
-          possiblePlaces.push([row - 2, col]);
-        }
-      }
-    } else {
-      // BLACK goes DOWNWARDS
-      diagonalDirs = [
-        [1, -1],
-        [1, 1],
-      ];
-
-      const oneStepElement = this.getPiece(row + 1, col);
-      if (!oneStepElement) {
-        if (row + 1 <= 7) possiblePlaces.push([row + 1, col]);
-
-        const twoStepElement = this.getPiece(row + 2, col);
-        if (row === 1 && !twoStepElement) {
-          possiblePlaces.push([row + 2, col]);
-        }
-      }
-    }
-
-    diagonalDirs.forEach((dir) => {
-      console.log(dir);
-      const newRow = row + dir[0],
-        newCol = col + dir[1];
-      const piece = this.getPiece(newRow, newCol);
-      if (piece && piece.color !== color) {
-        possiblePlaces.push([newRow, newCol]);
-      }
-    });
-    return possiblePlaces;
-  }
-
-  queenSquares(row, col, color) {
-    // [[0, 1] [1, 2]] find unique elements in these types of array
-    const bishopSq = this.bishopSquares(row, col, color);
-    const rookSq = this.rookSquares(row, col, color);
-    const uniqueSet = new Set();
-    const uniqueValues = [];
-    bishopSq.forEach((rowCol) => {
-      const uniqueKey = rowCol[0] + "-" + rowCol[1];
-      if (!uniqueSet.has(uniqueKey)) {
-        uniqueValues.push(rowCol);
-      }
-      uniqueSet.add(uniqueKey);
-    });
-    rookSq.forEach((rowCol) => {
-      const uniqueKey = rowCol[0] + "-" + rowCol[1];
-      if (!uniqueSet.has(uniqueKey)) {
-        uniqueValues.push(rowCol);
-      }
-      uniqueSet.add(uniqueKey);
-    });
-    return uniqueValues;
   }
 }
