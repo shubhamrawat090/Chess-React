@@ -69,6 +69,10 @@
   background-color: aquamarine;
 }
 
+.col.black > .possibleSquare:not(:has(img))::after {
+    background-color: rgb(234, 230, 230);
+}
+
 /* .possibleSquare {
   background: #ecfd30;
   background: linear-gradient(to right, #f3fa2c, #ecfd30);
