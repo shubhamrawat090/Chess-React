@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { PIECES } from "../constants/chessboard";
 
 export class ChessLogic {
@@ -28,7 +27,7 @@ export class ChessLogic {
         color: "black",
         icon: PIECES.bb,
       },
-      { name: "Queen", type: "Q", x: 3, y: 3, color: "black", icon: PIECES.bq }, // TEST CODE FOR MOVING QUEEN MANUALLY
+      { name: "Queen", type: "Q", x: 0, y: 3, color: "black", icon: PIECES.bq },
       { name: "King", type: "K", x: 0, y: 4, color: "black", icon: PIECES.bk },
       {
         name: "Bishop",
@@ -79,7 +78,7 @@ export class ChessLogic {
       {
         name: "Bishop",
         type: "B",
-        x: 5, // TEST CODE
+        x: 7,
         y: 5,
         color: "white",
         icon: PIECES.wb,
