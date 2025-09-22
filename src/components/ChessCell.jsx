@@ -70,7 +70,7 @@ const ChessCell = ({
       {piece && <img className="icon" src={piece.icon} alt={piece.type} />}
 
       {/* DEBUGGING CODE - Show block numbers */}
-      <ShowRowColIndex rowIdx={rowIdx} colIdx={colIdx} />
+      {/* <ShowRowColIndex rowIdx={rowIdx} colIdx={colIdx} /> */}
     </button>
   );
 };
