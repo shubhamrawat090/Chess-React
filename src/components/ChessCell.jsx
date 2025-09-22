@@ -54,11 +54,6 @@ const ChessCell = ({
         handlePieceClick(piece);
       }
     }
-    // if (piece) {
-    //   handlePieceClick(piece);
-    // } else if (clickedPiece) {
-    //   handlePieceMove(rowIdx, colIdx);
-    // }
   };
 
   return (
@@ -75,7 +70,7 @@ const ChessCell = ({
       {piece && <img className="icon" src={piece.icon} alt={piece.type} />}
 
       {/* DEBUGGING CODE - Show block numbers */}
-      {/* <ShowRowColIndex rowIdx={rowIdx} colIdx={colIdx} /> */}
+      <ShowRowColIndex rowIdx={rowIdx} colIdx={colIdx} />
     </button>
   );
 };

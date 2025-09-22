@@ -44,31 +44,34 @@ const ChessBoard = ({ game }) => {
   };
 
   return (
-    <div className="chess-board">
-      {eightByEightBoard.map((row, rowIdx) => (
-        <div key={"row-" + rowIdx} className="row">
-          {row.map((col, colIdx) => (
-            <div
-              key={rowIdx + "-" + colIdx}
-              className={cn(
-                `col ${(rowIdx + colIdx) % 2 !== 0 ? "black" : "white"}`
-              )}
-            >
-              <ChessCell
-                rowIdx={rowIdx}
-                colIdx={colIdx}
-                game={game}
-                clickedPiece={clickedPiece}
-                handlePieceClick={handlePieceClick}
-                handlePieceMove={handlePieceMove}
-                clearClickedPiece={clearClickedPiece}
-                possibleSquares={possibleSquares}
-              />
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="chess-board">
+        {eightByEightBoard.map((row, rowIdx) => (
+          <div key={"row-" + rowIdx} className="row">
+            {row.map((col, colIdx) => (
+              <div
+                key={rowIdx + "-" + colIdx}
+                className={cn(
+                  `col ${(rowIdx + colIdx) % 2 !== 0 ? "black" : "white"}`
+                )}
+              >
+                <ChessCell
+                  rowIdx={rowIdx}
+                  colIdx={colIdx}
+                  game={game}
+                  clickedPiece={clickedPiece}
+                  handlePieceClick={handlePieceClick}
+                  handlePieceMove={handlePieceMove}
+                  clearClickedPiece={clearClickedPiece}
+                  possibleSquares={possibleSquares}
+                />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      {/* <div>{JSON.stringify(clickedPiece)}</div> */}
+    </>
   );
 };
 
